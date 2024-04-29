@@ -24,41 +24,49 @@ CRGB leds[NUM_LEDS];
 
 int index = 0;
 
-
-void showStrip() {
-   FastLED.show();
+void showStrip()
+{
+  FastLED.show();
 }
 
-void setPixel(int Pixel, byte red, byte green, byte blue) {
-   leds[Pixel].r = red;
-   leds[Pixel].g = green;
-   leds[Pixel].b = blue;
+void setPixel(int Pixel, byte red, byte green, byte blue)
+{
+  leds[Pixel].r = red;
+  leds[Pixel].g = green;
+  leds[Pixel].b = blue;
 }
 
-void setAll(byte red, byte green, byte blue) {
-  for(int i = 0; i < NUM_LEDS; i++ ) {
+void setAll(byte red, byte green, byte blue)
+{
+  for (int i = 0; i < NUM_LEDS; i++)
+  {
     setPixel(i, red, green, blue);
   }
   showStrip();
 }
 
-void FadeInOut(byte red, byte green, byte blue){
+void FadeInOut(byte red, byte green, byte blue, long fade)
+{
   float r, g, b;
-     
-  for(int k = 0; k < 256; k=k+1) {
-    r = (k/256.0)*red;
-    g = (k/256.0)*green;
-    b = (k/256.0)*blue;
-    setAll(r,g,b);
+
+  for (int k = 0; k < 256; k = k + 1)
+  {
+    r = (k / 256.0) * red;
+    g = (k / 256.0) * green;
+    b = (k / 256.0) * blue;
+    setAll(r, g, b);
     showStrip();
+    delay(fade);
   }
-     
-  for(int k = 255; k >= 0; k=k-2) {
-    r = (k/256.0)*red;
-    g = (k/256.0)*green;
-    b = (k/256.0)*blue;
-    setAll(r,g,b);
+
+  for (int k = 255; k >= 0; k = k - 2)
+  {
+    r = (k / 256.0) * red;
+    g = (k / 256.0) * green;
+    b = (k / 256.0) * blue;
+    setAll(r, g, b);
     showStrip();
+    delay(fade * 2);
   }
 }
 
@@ -69,10 +77,13 @@ void setup()
 
 void loop()
 {
-  // 255	228	45	
-  FadeInOut(0xff, 0xe4, 0x2d);
+  long fade = random(1,15);
+
+  // rgb 255	228	45
+  // hex 0xff, 0xe4, 0x2d
+  FadeInOut(0xff, 0xe4, 0x2d, fade);
+
+  long pause = random(0, 3000);
+
+  delay(pause);
 }
-
-
-
-
