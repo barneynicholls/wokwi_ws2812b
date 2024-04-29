@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "author": "sutaburosu",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-nano", "id": "nano", "top": 100, "left": 20, "attrs": {} },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels",
+      "top": 20,
+      "left": 20,
+      "attrs": { "rows": "1", "cols": "16", "pixelate": "circle" }
+    }
+  ],
+  "connections": [
+    [ "nano:GND.2", "neopixels:VSS", "black", [ "v0", "*", "v16" ] ],
+    [ "nano:2", "neopixels:DIN", "green", [ "v-16", "*", "v8" ] ],
+    [ "nano:5V", "neopixels:VDD", "red", [ "v20", "h-130", "*", "v8" ] ]
+  ],
+  "dependencies": {}
+}
