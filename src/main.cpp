@@ -10,19 +10,9 @@
 #define CHIPSET WS2812B
 #define kMatrixWidth 16
 #define kMatrixHeight 1
-#define XY_MATRIX (ROWMAJOR)
 #define NUM_LEDS ((kMatrixWidth) * (kMatrixHeight))
 
-#define SERIAL_UI 1      // if 1, can be controlled via keypresses in PuTTY
-#define FADEIN_FRAMES 32 // how long to reach full brightness when powered on
-#define MS_GOAL 20       // to try maintain 1000 / 20ms == 50 frames per second
-
-#define GIF2H_MAX_PALETTE_ENTRIES 140 // RAM is always tight on ATmega328...
-#define GIF2H_NUM_PIXELS NUM_LEDS     // all images must be the same size as the matrix
-
 CRGB leds[NUM_LEDS];
-
-int index = 0;
 
 void showStrip()
 {
@@ -45,7 +35,7 @@ void setAll(byte red, byte green, byte blue)
   showStrip();
 }
 
-void FadeInOut(byte red, byte green, byte blue, long fade)
+void FadeInOut(byte red, byte green, byte blue, long fade, long pause)
 {
   float r, g, b;
 
@@ -58,6 +48,8 @@ void FadeInOut(byte red, byte green, byte blue, long fade)
     showStrip();
     delay(fade);
   }
+
+  delay(pause);
 
   for (int k = 255; k >= 0; k = k - 2)
   {
@@ -77,11 +69,13 @@ void setup()
 
 void loop()
 {
-  long fade = random(1,15);
+  long fadeSpeed = random(1,15);
+
+  long pauseAtFullBrightness = random(1,1000);
 
   // rgb 255	228	45
   // hex 0xff, 0xe4, 0x2d
-  FadeInOut(0xff, 0xe4, 0x2d, fade);
+  FadeInOut(255, 228, 45, fadeSpeed, pauseAtFullBrightness);
 
   long pause = random(0, 3000);
 
