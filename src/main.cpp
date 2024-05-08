@@ -1,14 +1,11 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-// MAX_MILLIWATTS can only be changed at compile-time. Use 0 to disable limit.
-// Brightness can be changed at runtime via serial with 'b' and 'B'
-#define MAX_MILLIWATTS 0
-#define BRIGHTNESS 255
-#define LED_PIN 2
+#define BRIGHTNESS 170
+#define LED_PIN 5
 #define COLOR_ORDER GRB
 #define CHIPSET WS2812B
-#define kMatrixWidth 16
+#define kMatrixWidth 132
 #define kMatrixHeight 1
 #define NUM_LEDS ((kMatrixWidth) * (kMatrixHeight))
 
@@ -65,6 +62,7 @@ void FadeInOut(byte red, byte green, byte blue, long fade, long pause)
 void setup()
 {
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
 }
 
 void loop()
@@ -76,6 +74,7 @@ void loop()
   // rgb 255	228	45
   // hex 0xff, 0xe4, 0x2d
   FadeInOut(255, 228, 45, fadeSpeed, pauseAtFullBrightness);
+  //FadeInOut(253, 244, 220, fadeSpeed, pauseAtFullBrightness);
 
   long pause = random(0, 3000);
 
